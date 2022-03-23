@@ -8,7 +8,6 @@ namespace CadastrosBasicos
     public class Cliente
     {
         public Write write = new Write();
-        public Read read = new Read();
 
         public Leitura leitura = new Leitura();
 
@@ -20,7 +19,7 @@ namespace CadastrosBasicos
         public DateTime DataCadastro { get; set; }
         public char Situacao { get; set; }
 
-        public Cliente()
+        public Cliente(string v, string v1)
         {
 
         }
@@ -46,6 +45,9 @@ namespace CadastrosBasicos
             Situacao = situacao;
         }
 
+        public Cliente()
+        {
+        }
 
         public void BloqueiaCadastro()
         {
@@ -53,7 +55,7 @@ namespace CadastrosBasicos
             Console.WriteLine("Insira o CPF para bloqueio: ");
             string cpf = Console.ReadLine();
             cpf = cpf.Replace(".", "").Replace("-", "");
-            if (read.ProcurarCPFBloqueado(cpf))
+            if (leitura.ProcurarCPFBloqueado(cpf))
             {
                 bool flag = false;
                 int opcao;
@@ -78,7 +80,7 @@ namespace CadastrosBasicos
             {
                 if (Validacoes.ValidarCpf(cpf))
                 {
-                    cliente = leitura.ProcuraCliente(cpf);
+                    cliente = leitura.ProcurarCliente(cpf);
                     if (cliente != null)
                     {
                         write.BloqueiaCliente(cliente.CPF);
@@ -100,7 +102,7 @@ namespace CadastrosBasicos
             Console.Write("CPF: ");
             string cpf = Console.ReadLine();
 
-            cliente = leitura.ProcuraCliente(cpf);
+            cliente = leitura.ProcurarCliente(cpf);
             if (cliente != null)
             {
                 Console.WriteLine("Nome: ");
@@ -130,10 +132,10 @@ namespace CadastrosBasicos
         public void Navegar()
         {
             Console.WriteLine("============== Cliente ==============");
-            bool verificaArquivo = read.VerificaListaCliente();
+            bool verificaArquivo = leitura.ContemCliente();
             if (verificaArquivo == true)
             {
-                List<Cliente> lista = read.ListaArquivoCliente();
+                List<Cliente> lista = leitura.TrazerClientes();
                 int opcao = 0, posicao = 0;
                 bool flag = false;
                 do
@@ -201,7 +203,7 @@ namespace CadastrosBasicos
             Console.WriteLine("Insira o cpf para localizar: ");
             string cpf = Console.ReadLine();
 
-            Cliente cliente = leitura.ProcuraCliente(cpf);
+            Cliente cliente = leitura.ProcurarCliente(cpf);
 
             if (cliente != null)
             {
@@ -217,11 +219,11 @@ namespace CadastrosBasicos
         {
             Console.WriteLine("Insira o CPF para pesquisa: ");
             string cpf = Console.ReadLine();
-            bool flag = new Read().ProcurarCPFBloqueado(cpf);
+            bool flag = new Leitura().ProcurarCPFBloqueado(cpf);
             
             if (flag)
             {
-                Cliente cliente = leitura.ProcuraCliente(cpf);
+                Cliente cliente = leitura.ProcurarCliente(cpf);
                 Console.WriteLine(cliente.ToString());
             }
             else

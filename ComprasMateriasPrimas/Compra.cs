@@ -186,7 +186,7 @@ namespace ComprasMateriasPrimas
                 {
                     // ---------- CADASTRAR COMPRA -----------
                     case 1:
-                        if (new Read().VerificaListaFornecedor())
+                        if (new Leitura().ContemFornecedor())
                             CadastraNovaCompra();
                         else
                         {

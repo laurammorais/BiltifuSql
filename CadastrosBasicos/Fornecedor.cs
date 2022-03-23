@@ -9,7 +9,6 @@ namespace CadastrosBasicos
     public class Fornecedor
     {
         public Write write = new Write();
-        public Read read = new Read();
 
         public Leitura leitura = new Leitura();
         public string CNPJ { get; set; }
@@ -44,7 +43,7 @@ namespace CadastrosBasicos
         public void Navegar()
         {
             Console.WriteLine("============== Fornecedores ==============");
-            List<Fornecedor> lista = leitura.ListaArquivoFornecedor();
+            List<Fornecedor> lista = leitura.TrazerFornecedores();
             int opcao = 0, posicao = 0;
             if (lista.Count == 0)
             {

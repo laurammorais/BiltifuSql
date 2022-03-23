@@ -33,7 +33,7 @@ namespace VendasProdutos
                 switch (opcao = Console.ReadLine())
                 {
                     case "1":
-                        if (new Read().VerificaListaCliente())
+                        if (new Leitura().ContemCliente())
                             NovaVenda();
                         else
                             Console.WriteLine("Para realizar uma venda sera necessario cadastrar um cliente!");
@@ -67,7 +67,7 @@ namespace VendasProdutos
             Console.WriteLine("informe o CPF do cliente:");
             string cpf = Console.ReadLine();
 
-            if (new Read().ProcurarCPFBloqueado(cpf) == true)
+            if (new Leitura().ProcurarCPFBloqueado(cpf) == true)
             {
                 Console.Clear();
                 Console.WriteLine("\n Falha ao iniciar a venda. Procure pelo gerente do local.");
@@ -77,7 +77,7 @@ namespace VendasProdutos
             }
             else
             {
-                cliente = new Leitura().ProcuraCliente(cpf);
+                cliente = new Leitura().ProcurarCliente(cpf);
 
                 if (cliente == null)
                 {
@@ -269,7 +269,7 @@ namespace VendasProdutos
 
             if (venda != null)
             {
-                Cliente cliente = new Leitura().ProcuraCliente(venda.Cliente);
+                Cliente cliente = new Leitura().ProcurarCliente(venda.Cliente);
                 List<ItemVenda> itens = itemVenda.Localizar(venda.Id);
 
                 Console.WriteLine("----------------------------------------------------------");

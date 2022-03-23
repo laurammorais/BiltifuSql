@@ -85,9 +85,7 @@ namespace CadastrosBasicos.ManipulaArquivos
 
         public void EditarFornecedor(Fornecedor fornecedorAtualizado)
         {
-
-            Read read = new Read();
-            List<Fornecedor> fornecedores = new Leitura().ListaArquivoFornecedor();
+            List<Fornecedor> fornecedores = new Leitura().TrazerFornecedores();
             int posicao = 0;
             try
             {
@@ -117,6 +115,7 @@ namespace CadastrosBasicos.ManipulaArquivos
                 Console.WriteLine("Ocorreu um erro: " + ex.Message);
             }
         }
+
 
     }
 }

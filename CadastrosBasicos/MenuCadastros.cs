@@ -8,7 +8,6 @@ namespace CadastrosBasicos
     public class MenuCadastros
     {
         public static Write write = new Write();
-        public static Read read = new Read();
         public static Leitura leitura = new Leitura();
         public static Escrita escrita = new Escrita();
 
@@ -195,7 +194,6 @@ namespace CadastrosBasicos
         public static Fornecedor RegistrarFornecedor(DateTime dFundacao)
         {
             string rSocial, cnpj;
-            Read read = new Read();
             char situacao;
             do
             {
@@ -225,7 +223,6 @@ namespace CadastrosBasicos
         public static Cliente RegistrarCliente(DateTime dNascimento)
         {
             string nome, cpf;
-            Read read = new Read();
             char situacao, sexo;
             do
             {
@@ -235,7 +232,7 @@ namespace CadastrosBasicos
                 cpf = cpf.Replace(".", "").Replace("-", "");
 
             } while (Validacoes.ValidarCpf(cpf) == false);
-            Cliente c = leitura.ProcuraCliente(cpf);
+            Cliente c = leitura.ProcurarCliente(cpf);
 
             if (c.CPF == null)
             {
