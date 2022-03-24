@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CadastrosBasicos;
-using CadastrosBasicos.ManipulaArquivos;
 using CadastrosBasicos.ManipularBanco;
 
 namespace VendasProdutos
@@ -33,7 +28,7 @@ namespace VendasProdutos
                 switch (opcao = Console.ReadLine())
                 {
                     case "1":
-                        if (new Leitura().ContemCliente())
+                        if (new LeituraCliente().ContemCliente())
                             NovaVenda();
                         else
                             Console.WriteLine("Para realizar uma venda sera necessario cadastrar um cliente!");
@@ -67,7 +62,7 @@ namespace VendasProdutos
             Console.WriteLine("informe o CPF do cliente:");
             string cpf = Console.ReadLine();
 
-            if (new Leitura().ProcurarCPFBloqueado(cpf) == true)
+            if (new LeituraCliente().ProcurarCPFBloqueado(cpf) == true)
             {
                 Console.Clear();
                 Console.WriteLine("\n Falha ao iniciar a venda. Procure pelo gerente do local.");
@@ -77,7 +72,7 @@ namespace VendasProdutos
             }
             else
             {
-                cliente = new Leitura().ProcurarCliente(cpf);
+                cliente = new LeituraCliente().ProcurarCliente(cpf);
 
                 if (cliente == null)
                 {
@@ -246,7 +241,7 @@ namespace VendasProdutos
                 
                 cliente.UltimaVenda = venda.DataVenda;
 
-                new Escrita().EditarCliente(cliente);
+                new EscritaCliente().EditarCliente(cliente);
 
                 Console.WriteLine("\n\nVenda cadastrada com sucesso!\nPressione ENTER para voltar ao Menu Vendas...");
 
@@ -269,7 +264,7 @@ namespace VendasProdutos
 
             if (venda != null)
             {
-                Cliente cliente = new Leitura().ProcurarCliente(venda.Cliente);
+                Cliente cliente = new LeituraCliente().ProcurarCliente(venda.Cliente);
                 List<ItemVenda> itens = itemVenda.Localizar(venda.Id);
 
                 Console.WriteLine("----------------------------------------------------------");

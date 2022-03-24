@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using CadastrosBasicos;
-using CadastrosBasicos.ManipulaArquivos;
 using System.Linq;
 using CadastrosBasicos.ManipularBanco;
 
@@ -65,7 +63,7 @@ namespace ComprasMateriasPrimas
                     {
                         while ((linha = sr.ReadLine()) != null)
                         {
-                            if (Compra.ExtrairId(linha) == idProcura && !new Leitura().ProcurarCNPJBloqueado(Compra.ExtrairCNPJ(linha)))
+                            if (Compra.ExtrairId(linha) == idProcura && !new LeituraFornecedor().ProcurarCNPJBloqueado(Compra.ExtrairCNPJ(linha)))
                             {
                                 procura = Compra.ExtrairCompra(linha);
                                 return procura;

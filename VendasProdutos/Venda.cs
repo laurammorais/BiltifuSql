@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using CadastrosBasicos;
-using CadastrosBasicos.ManipulaArquivos;
 using CadastrosBasicos.ManipularBanco;
 
 namespace VendasProdutos
@@ -138,7 +137,7 @@ namespace VendasProdutos
 
                 Venda venda = new Venda(int.Parse(idVenda), cpf.Insert(3, ".").Insert(7, ".").Insert(11, "-"), dt, Decimal.Parse(vtotal.Insert(vtotal.Length - 2, ",")));
 
-                Cliente cliente = new Leitura().ProcurarCliente(venda.Cliente);
+                Cliente cliente = new LeituraCliente().ProcurarCliente(venda.Cliente);
 
                 List<ItemVenda> itens = itemVenda.Localizar(venda.Id);
 

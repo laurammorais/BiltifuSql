@@ -1,5 +1,4 @@
 using System;
-using CadastrosBasicos.ManipulaArquivos;
 using CadastrosBasicos.ManipularBanco;
 
 namespace CadastrosBasicos
@@ -7,9 +6,8 @@ namespace CadastrosBasicos
 
     public class MenuCadastros
     {
-        public static Write write = new Write();
-        public static Leitura leitura = new Leitura();
-        public static Escrita escrita = new Escrita();
+        public static LeituraCliente leituraCliente = new LeituraCliente();
+        public static EscritaCliente escritaCliente = new EscritaCliente();
 
         public static void SubMenu()
         {
@@ -181,7 +179,7 @@ namespace CadastrosBasicos
             if (Validacoes.CalculaCriacao(dCriacao))
             {
                 Fornecedor fornecedor = RegistrarFornecedor(dCriacao);
-                escrita.GravarNovoFornecedor(fornecedor);
+                new EscritaFornecedor().GravarNovoFornecedor(fornecedor);
             }
             else
             {
@@ -202,7 +200,7 @@ namespace CadastrosBasicos
                 cnpj = cnpj.Trim();
                 cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
             } while (Validacoes.ValidarCnpj(cnpj) == false);
-            Fornecedor f = leitura.ProcurarFornecedor(cnpj);
+            Fornecedor f = new LeituraFornecedor().ProcurarFornecedor(cnpj);
             if (f.CNPJ == null)
             {
                 Console.Write("Razao social: ");
@@ -232,7 +230,7 @@ namespace CadastrosBasicos
                 cpf = cpf.Replace(".", "").Replace("-", "");
 
             } while (Validacoes.ValidarCpf(cpf) == false);
-            Cliente c = leitura.ProcurarCliente(cpf);
+            Cliente c = leituraCliente.ProcurarCliente(cpf);
 
             if (c.CPF == null)
             {
@@ -242,7 +240,7 @@ namespace CadastrosBasicos
                 sexo = char.Parse(Console.ReadLine());
                 Console.Write("Situacao (A - Ativo/ I - Inativo): ");
                 situacao = char.Parse(Console.ReadLine());
-                escrita.GravarNovoCliente(new Cliente(cpf, nome, dNascimento, sexo, situacao));
+                escritaCliente.GravarNovoCliente(new Cliente(cpf, nome, dNascimento, sexo, situacao));
             }
             else
             {

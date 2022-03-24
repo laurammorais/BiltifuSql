@@ -1,11 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using CadastrosBasicos.ManipularBanco;
 
 namespace CadastrosBasicos
 {
@@ -92,7 +89,7 @@ namespace CadastrosBasicos
             Produto produto = new Produto();
 
             char sit = 'A';
-            string cod, nomeTemp, verificaProduto = null;
+            string cod, nomeTemp;
             decimal valorVenda = 0;
             bool flag = true;
 
@@ -127,16 +124,16 @@ namespace CadastrosBasicos
                         continue;
                     }
 
-                    verificaProduto = Buscar(cod);
+                    produto = new LeituraProduto().Buscar(cod);
 
-                    if (!string.IsNullOrEmpty(verificaProduto))
+                    if (produto.CodigoBarras != null)
                     {
                         Console.WriteLine("\n Ja existe um produto cadastrado com esse codigo.");
                         Console.WriteLine("\n Pressione ENTER para voltar...");
                         Console.ReadKey();
                     }
 
-                } while (cod.Length != 13 || !string.IsNullOrEmpty(verificaProduto));
+                } while (cod.Length != 13 || produto.CodigoBarras != null);
 
 
                 do
@@ -193,7 +190,7 @@ namespace CadastrosBasicos
                 produto.DataCadastro = DateTime.Now.Date;
                 produto.Situacao = sit;
 
-                GravarProduto(produto);
+                new EscritaProduto().GravarProduto(produto);
 
                 Console.WriteLine("\n Cadastro do Produto concluido com sucesso!\n");
                 Console.WriteLine("\n Pressione ENTER para voltar ao menu");
@@ -202,46 +199,17 @@ namespace CadastrosBasicos
             } while (flag);
         }
 
-        public void GravarProduto(Produto produto)
-        {
-            string caminhoFinal = Path.Combine(Directory.GetCurrentDirectory(), "DataBase");
-            Directory.CreateDirectory(caminhoFinal);
-
-            string arquivoFinal = Path.Combine(caminhoFinal, "Cosmetico.dat");
-
-            try
-            {
-                if (!File.Exists(arquivoFinal))
-                {
-                    using (StreamWriter sw = new StreamWriter(arquivoFinal))
-                    {
-                        sw.WriteLine(produto.ToString());
-                    }
-                }
-                else
-                {
-                    using (StreamWriter sw = new StreamWriter(arquivoFinal, append: true))
-                    {
-                        sw.WriteLine(produto.ToString());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Ex -> " + ex.Message);
-            }
-        }
-
         public void Localizar()
         {
-            string cod, produto;
+            string cod;
+            Produto produto;
 
             Console.Clear();
             Console.WriteLine("\n Localizar Produto");
             Console.Write("\n Digite o codigo do produto: ");
             cod = Console.ReadLine();
 
-            produto = Buscar(cod);
+            produto = new LeituraProduto().Buscar(cod);
 
             if (produto == null)
             {
@@ -251,18 +219,19 @@ namespace CadastrosBasicos
             }
             else
             {
-                string situacao = produto.Substring(54, 1);
-                if (situacao == "A")
+                string situacao = "";
+
+                if (produto.Situacao == 'A')
                     situacao = "Ativo";
-                else if (situacao == "I")
+                else if (produto.Situacao == 'I')
                     situacao = "Inativo";
 
                 Console.WriteLine("\n O produto foi encontrado.\n");
-                Console.WriteLine($" Codigo: {produto.Substring(0, 13)}");
-                Console.WriteLine($" Nome: {produto.Substring(13, 20)}");
-                Console.WriteLine($" Valor da venda: {produto.Substring(33, 5).Insert(3, ",")}");
-                Console.WriteLine($" Data ultima venda: {produto.Substring(38, 8).Insert(2, "/").Insert(5, "/")}");
-                Console.WriteLine($" Data do cadastro: {produto.Substring(46, 8).Insert(2, "/").Insert(5, "/")}");
+                Console.WriteLine($" Codigo: {produto.CodigoBarras}");
+                Console.WriteLine($" Nome: {produto.Nome}");
+                Console.WriteLine($" Valor da venda: {produto.ValorVenda}");
+                Console.WriteLine($" Data ultima venda: {produto.UltimaVenda}");
+                Console.WriteLine($" Data do cadastro: {produto.DataCadastro}");
                 Console.WriteLine($" Situacao: {situacao}");
                 Console.WriteLine("\n Pressione ENTER para voltar ao menu");
                 Console.ReadKey();
@@ -271,7 +240,7 @@ namespace CadastrosBasicos
 
         public void AlterarSituacao()
         {
-            string cod, produto, situacao;
+            string cod, situacao = "";
             bool flag = true;
 
             Console.Clear();
@@ -279,9 +248,9 @@ namespace CadastrosBasicos
             Console.Write("\n Digite o codigo do produto: ");
             cod = Console.ReadLine();
 
-            produto = Buscar(cod);
+            Produto produto = new LeituraProduto().Buscar(cod);
 
-            if (produto == null)
+            if (produto.CodigoBarras == null)
             {
                 Console.WriteLine("\n O produto nao existe.");
                 Console.WriteLine("\n Pressione ENTER para voltar ao menu");
@@ -289,18 +258,17 @@ namespace CadastrosBasicos
             }
             else
             {
-                situacao = produto.Substring(54, 1);
-                if (situacao == "A")
+                if (produto.Situacao == 'A')
                     situacao = "Ativo";
-                else if (situacao == "I")
+                else if (produto.Situacao == 'I')
                     situacao = "Inativo";
 
                 Console.WriteLine("\n O produto foi encontrado.\n");
-                Console.WriteLine($" Codigo: {produto.Substring(0, 13)}");
-                Console.WriteLine($" Nome: {produto.Substring(13, 20)}");
-                Console.WriteLine($" Valor da venda: {produto.Substring(33, 5).Insert(3, ",")}");
-                Console.WriteLine($" Data ultima venda: {produto.Substring(38, 8).Insert(2, "/").Insert(5, "/")}");
-                Console.WriteLine($" Data do cadastro: {produto.Substring(46, 8).Insert(2, "/").Insert(5, "/")}");
+                Console.WriteLine($" Codigo: {produto.CodigoBarras}");
+                Console.WriteLine($" Nome: {produto.Nome}");
+                Console.WriteLine($" Valor da venda: {produto.ValorVenda}");
+                Console.WriteLine($" Data ultima venda: {produto.UltimaVenda}");
+                Console.WriteLine($" Data do cadastro: {produto.DataCadastro}");
                 Console.WriteLine($" Situacao: {situacao}");
 
                 do

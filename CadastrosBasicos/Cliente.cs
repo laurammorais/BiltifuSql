@@ -1,15 +1,12 @@
-﻿using CadastrosBasicos.ManipulaArquivos;
-using CadastrosBasicos.ManipularBanco;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using CadastrosBasicos.ManipularBanco;
 
 namespace CadastrosBasicos
 {
     public class Cliente
     {
-        public Write write = new Write();
-
-        public Leitura leitura = new Leitura();
+        public LeituraCliente leitura = new LeituraCliente();
 
         public string CPF { get; private set; }
         public string Nome { get; set; }
@@ -19,11 +16,7 @@ namespace CadastrosBasicos
         public DateTime DataCadastro { get; set; }
         public char Situacao { get; set; }
 
-        public Cliente(string v, string v1)
-        {
-
-        }
-
+        public Cliente() { }
         public Cliente(string cpf, string name, DateTime dataNascimento, char sexo, char situacao)
         {
             CPF = cpf;
@@ -43,10 +36,6 @@ namespace CadastrosBasicos
             UltimaVenda = UltimaCompra;
             DataCadastro = dataCadastro;
             Situacao = situacao;
-        }
-
-        public Cliente()
-        {
         }
 
         public void BloqueiaCadastro()
@@ -69,12 +58,12 @@ namespace CadastrosBasicos
 
                 if (opcao == 1)
                 {
-                    write.DesbloqueiaCliente(cpf);
+                    new EscritaCliente().AlterarSituacaoDoCliente(cpf, 'A');
                     Console.WriteLine("Cliente desbloqueado");
                     Console.WriteLine("Pressione enter para continuar...");
                     Console.ReadKey();
                 }
-                
+
             }
             else
             {
@@ -83,7 +72,7 @@ namespace CadastrosBasicos
                     cliente = leitura.ProcurarCliente(cpf);
                     if (cliente != null)
                     {
-                        write.BloqueiaCliente(cliente.CPF);
+                        new EscritaCliente().AlterarSituacaoDoCliente(cliente.CPF, 'I');
                         Console.WriteLine("CPF bloqueado!");
                     }
                 }
@@ -116,7 +105,7 @@ namespace CadastrosBasicos
                 cliente.DataNascimento = flag == false ? cliente.DataCadastro : dNascimento;
                 cliente.Situacao = flagSituacao == false ? cliente.Situacao : situacao;
 
-                new Escrita().EditarCliente(cliente);
+                new EscritaCliente().EditarCliente(cliente);
 
                 Console.WriteLine("Cliente Cadastrado com sucesso");
                 Console.WriteLine("Pressione enter para continuar...");
@@ -208,7 +197,7 @@ namespace CadastrosBasicos
             if (cliente != null)
             {
                 Console.WriteLine(cliente.ToString());
-                
+
             }
             else
                 Console.WriteLine("Nenhum cadastrado foi encontrado!");
@@ -219,8 +208,8 @@ namespace CadastrosBasicos
         {
             Console.WriteLine("Insira o CPF para pesquisa: ");
             string cpf = Console.ReadLine();
-            bool flag = new Leitura().ProcurarCPFBloqueado(cpf);
-            
+            bool flag = new LeituraCliente().ProcurarCPFBloqueado(cpf);
+
             if (flag)
             {
                 Cliente cliente = leitura.ProcurarCliente(cpf);

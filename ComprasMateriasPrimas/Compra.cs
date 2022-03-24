@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using CadastrosBasicos;
-using CadastrosBasicos.ManipulaArquivos;
 using CadastrosBasicos.ManipularBanco;
 
 namespace ComprasMateriasPrimas
@@ -186,7 +184,7 @@ namespace ComprasMateriasPrimas
                 {
                     // ---------- CADASTRAR COMPRA -----------
                     case 1:
-                        if (new Leitura().ContemFornecedor())
+                        if (new LeituraFornecedor().ContemFornecedor())
                             CadastraNovaCompra();
                         else
                         {
@@ -234,10 +232,10 @@ namespace ComprasMateriasPrimas
 
                 ok = cnpjFornecedor != string.Empty &&
                      Validacoes.ValidarCnpj(cnpjFornecedor) &&
-                     new Leitura().ProcurarFornecedor(cnpjFornecedor).CNPJ != null ? 0 : 1;
+                     new LeituraFornecedor().ProcurarFornecedor(cnpjFornecedor).CNPJ != null ? 0 : 1;
                 if (ok != 0) Console.WriteLine("CNPJ invalido ou não encontrado na base de dados, digite novamente!");
             } while (ok != 0);
-            cnpjFornecedor = new Leitura().ProcurarFornecedor(cnpjFornecedor).CNPJ;
+            cnpjFornecedor = new LeituraFornecedor().ProcurarFornecedor(cnpjFornecedor).CNPJ;
 
             int count = 1;
             List<ItemCompra> itens = new();

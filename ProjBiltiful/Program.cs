@@ -1,11 +1,9 @@
 using System;
-using System.IO;
-using VendasProdutos;
+using System.Globalization;
 using CadastrosBasicos;
 using ComprasMateriasPrimas;
-using CadastrosBasicos.ManipulaArquivos;
 using ProducaoCosmeticos;
-using System.Globalization;
+using VendasProdutos;
 
 namespace ProjBiltiful
 {
